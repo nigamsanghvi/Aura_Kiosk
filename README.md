@@ -35,15 +35,59 @@ This project was developed as part of an Object-Oriented Programming group proje
 - JSON-based persistence for inventory and transactions
 
 ## Repository Structure
+# 🛒 Aura Retail OS — Path A: Adaptive Autonomous System
+
+> Python 3.10+ · OOP design patterns · IT620 Project
+
+---
+
+## Overview
+
+**Aura Retail OS** is a modular retail kiosk simulation for the smart city of Zephyrus.
+It uses **Path A — Adaptive Autonomous System**, demonstrating how a kiosk can dynamically
+react to emergencies, hardware failures, pricing changes, and system events entirely through
+object-oriented design patterns.
+
+---
+
+## Design Patterns Implemented
+
+| # | Pattern | Location | Role |
+|---|---------|----------|------|
+| 1 | **Singleton** | `core/central_registry.py` | Global config, status, and event log |
+| 2 | **Abstract Factory** | `core/kiosk_factory.py` | Create compatible kiosk component families |
+| 3 | **State** | `state/kiosk_state.py` | Kiosk operational modes (Active/PowerSaving/Maintenance/Emergency) |
+| 4 | **Strategy** | `pricing/strategy.py`, `payment/strategy.py` | Swappable pricing and payment algorithms |
+| 5 | **Command** | `core/commands.py` | Encapsulate purchase/refund/restock as executable objects |
+| 6 | **Chain of Responsibility** | `failure/handler.py` | Retry → Recalibrate → Alert failure recovery chain |
+| 7 | **Memento** | `memento/memento.py` | Snapshot inventory before purchase; rollback on failure |
+| 8 | **Observer** | `events/event_bus.py` | Event-driven communication (LowStock, HardwareFailure, Emergency) |
+| 9 | **Facade** | `core/kiosk_interface.py` | Simplified external API hiding all subsystem complexity |
+
+---
+
+## Folder Structure
 
 ```text
 Aura_Kiosk-main/
+```
+aura_retail_os/
+├── main.py                     # Entry point — 5 simulation scenarios
 ├── core/
 │   ├── kiosk.py
 │   ├── kiosk_interface.py
 │   └── central_registry.py
 ├── inventory/
 │   └── inventory.py
+│   ├── central_registry.py     # SINGLETON — global store
+│   ├── kiosk.py                # Kiosk core orchestrator
+│   ├── kiosk_interface.py      # FACADE — external API
+│   ├── kiosk_factory.py        # ABSTRACT FACTORY — Pharmacy/Food/Emergency
+│   └── commands.py             # COMMAND — Purchase/Refund/Restock + Invoker
+├── state/
+│   └── kiosk_state.py          # STATE — Active/PowerSaving/Maintenance/Emergency 
+├── pricing/
+│   └── strategy.py             # STRATEGY — Standard/Discount/Emergency pricing
 ├── payment/
 │   ├── command.py
 │   └── strategy.py
@@ -53,334 +97,125 @@ Aura_Kiosk-main/
 │   └── handler.py
 ├── state/
 │   └── kiosk_state.py
+│   └── strategy.py             # STRATEGY — UPI/Card/Wallet payment methods
+├── failure/
+│   └── handler.py              # CHAIN OF RESPONSIBILITY — Retry→Recalibrate→Alert
 ├── memento/
-│   └── memento.py
+│   └── memento.py              # MEMENTO — inventory snapshot & rollback
 ├── events/
-│   └── event_bus.py
-├── persistence/
-│   └── storage.py
+│   └── event_bus.py            # OBSERVER — EventBus + 3 built-in subscribers
+├── inventory/
+│   └── inventory.py            # Thread-safe inventory with derived attributes
 ├── models/
-│   └── product.py
-├── ui/
-│   └── main_window.py
-├── demo/
-│   ├── main.py
-│   ├── inventory.json
-│   └── transactions.json
-├── run_gui.py
-└── README.md
+│   └── product.py              # Product data model
+├── persistence/
+│   └── storage.py              # JSON persistence
+├── data/                       # JSON files (auto-created on run)
+└── tests/
+    └── test_aura_retail_os.py  # 41 unit tests
 ```
 
-## Design Patterns Used
-
-### 1. Command Pattern
-
-Used for executing kiosk operations such as purchase, refund, and restock.
-
-**File:** `payment/command.py`
-
-**Main classes:**
-
-- `PurchaseCommand`
-- `RefundCommand`
-- `RestockCommand`
-
-### 2. Strategy Pattern
-
-Used for interchangeable pricing and payment behavior.
-
-**Files:**
-
-- `pricing/strategy.py`
-- `payment/strategy.py`
-
-**Pricing strategies:**
-
-- `StandardPricing`
-- `DiscountPricing`
-- `EmergencyPricing`
-
-### 3. State Pattern
-
-Used to control kiosk behavior based on its current operating mode.
-
-**File:** `state/kiosk_state.py`
-
-**States:**
-
-- `ActiveState`
-- `MaintenanceState`
-- `EmergencyState`
-- `PowerSavingState`
-
-### 4. Memento Pattern
-
-Used to save and restore inventory state during transaction rollback.
-
-**File:** `memento/memento.py`
-
-### 5. Chain of Responsibility Pattern
-
-Used to handle failures through a sequence of handlers.
-
-**File:** `failure/handler.py`
-
-**Handlers:**
-
-- `Retry`
-- `Alert`
-
-### 6. Event-driven Communication
-
-Used to publish transaction events such as purchase success or failure.
-
-**File:** `events/event_bus.py`
-
-## Requirements
-
-- Python 3.10 or above
-- PySide6
-
-Install PySide6:
-
-```bash
-pip install PySide6
-```
-
-If a `requirements.txt` file is available:
-
-```bash
-pip install -r requirements.txt
-```
+---
 
 ## How to Run
 
-### 1. Clone the Repository
+### Prerequisites
+
+- Python 3.10+
+- No external dependencies (stdlib only)
+
+### Console Simulation (all 5 scenarios)
 
 ```bash
-git clone https://github.com/your-username/Aura_Kiosk-main.git
-cd Aura_Kiosk-main
+python main.py
 ```
 
-### 2. Create a Virtual Environment
+### Unit Tests
 
 ```bash
-python -m venv venv
+python -m unittest tests.test_aura_retail_os -v
 ```
 
-Activate the virtual environment.
+---
 
-**Windows:**
+**Demo — CLI & GUI**
+
+- **CLI Demo:** Launch the interactive command-line interface to control a kiosk instance. From the project root run:
 
 ```bash
-venv\Scripts\activate
+python interface/cli.py
 ```
 
-**macOS/Linux:**
+The CLI provides text-based controls for starting scenarios, performing purchases, refunds, and restocking. Use the `--help` flag for available commands when supported.
+
+- **GUI Demo:** Launch the graphical interface (requires a Python build with Tkinter). From the project root run:
 
 ```bash
-source venv/bin/activate
+python interface/gui.py
 ```
 
-### 3. Install Dependencies
+The GUI offers buttons and visual status information to run the same simulations as `main.py` and to interact with the kiosk in a more user-friendly way.
+
+**Run the full simulation suite**
+
+- To run all five pre-built simulation scenarios (Dynamic Pricing, State Transitions, Hardware Failure Recovery, Event Notifications, and Transaction Lifecycle), run:
 
 ```bash
-pip install PySide6
+python main.py
 ```
 
-### 4. Run the GUI Application
+Notes:
+- Ensure you are using Python 3.10+.
+- The demos save/load data under the `data/` directory (e.g., `data/inventory_kiosk005.json`).
 
-```bash
-python run_gui.py
-```
+---
 
-### 5. Run the CLI Demo
+## Simulation Scenarios
 
-```bash
-python demo/main.py
-```
+### Scenario 1 — Dynamic Pricing Change
+Demonstrates the **Strategy** pattern.  
+Switches between Standard → Discount (10%) → Emergency pricing at runtime.  
+Essential vs non-essential item pricing differs under Emergency mode.  
+Payment method also swapped at runtime from Card to UPI.
 
-## Demo Scenarios
+### Scenario 2 — Kiosk State Transitions
+Demonstrates the **State** pattern.  
+Walks through Active → PowerSaving → Maintenance → Emergency → Active.  
+Each state enforces different purchase rules automatically.
 
-### Scenario 1: Dynamic Pricing
+### Scenario 3 — Hardware Failure Recovery
+Demonstrates **Chain of Responsibility** + **Memento**.  
+Simulates a hardware fault, triggers the Retry→Recalibrate→Alert chain,  
+then verifies inventory is properly rolled back via Memento if the purchase failed.
 
-1. Start the GUI:
+### Scenario 4 — Event-Driven Notifications
+Demonstrates the **Observer** pattern.  
+Three subscribers (MaintenanceService, SupplyChain, CityMonitor) automatically  
+receive events: LowStockEvent, HardwareFailureEvent, EmergencyModeActivated.
 
-```bash
-python run_gui.py
-```
+### Scenario 5 — Purchase, Refund & JSON Persistence
+Full transaction lifecycle: purchase → refund → restock.  
+All data saved to `data/inventory_kiosk005.json` and `data/transactions_kiosk005.json`.
 
-2. Select product `P1`.
-3. Enter a quantity.
-4. Choose a pricing strategy: `Standard`, `Discount`, or `Emergency`.
-5. Click **Purchase**.
+---
 
-**Expected Result:**
+## OOP Principles
 
-The system calculates the total price based on the selected pricing strategy and displays the purchase result in the output section.
+| Principle | Where demonstrated |
+|-----------|-------------------|
+| **Encapsulation** | `Inventory` private `_items` dict, `Product` private attributes |
+| **Abstraction** | `KioskState`, `PricingStrategy`, `PaymentStrategy`, `FailureHandler` are all abstract |
+| **Inheritance** | All concrete states/strategies/handlers extend abstract base classes |
+| **Low coupling** | Kiosk talks to `EventBus` (not subscribers directly); commands use interfaces not concrete classes |
 
-### Scenario 2: Simulated Hardware Failure and Rollback
+---
 
-1. Run the CLI demo:
+## System Constraints Addressed
 
-```bash
-python demo/main.py
-```
-
-2. The demo attempts a purchase with quantity greater than `3`.
-
-**Expected Result:**
-
-The system simulates a temporary failure, triggers the failure handler, restores the inventory to its previous state, and returns `Rollback`.
-
-### Scenario 3: Emergency Mode Purchase Limit
-
-Emergency mode restricts large purchases.
-
-```python
-from state.kiosk_state import EmergencyState
-from payment.strategy import UPI
-from pricing.strategy import StandardPricing
-
-kiosk.state = EmergencyState()
-
-print(interface.purchaseItem("P1", 3, UPI(), StandardPricing()))  # Blocked
-print(interface.purchaseItem("P1", 2, UPI(), StandardPricing()))  # Success
-```
-
-**Expected Result:**
-
-Purchases above the emergency limit are blocked, while smaller purchases are allowed.
-
-### Scenario 4: Inventory Consistency
-
-1. Trigger a purchase that causes a simulated failure.
-2. Check inventory before and after the failed transaction.
-
-**Expected Result:**
-
-Inventory remains consistent after rollback. Failed transactions do not permanently reduce stock.
-
-### Scenario 5: Failure Handler Customization
-
-The failure handling chain can be customized.
-
-```python
-from failure.handler import Retry, Alert
-
-handler = Retry(Alert())
-kiosk = Kiosk(inventory, handler)
-```
-
-**Expected Result:**
-
-The system attempts retry handling first. If retry handling cannot resolve the issue, the alert handler is used.
-
-## Sample CLI Output
-
-```text
-=== PURCHASE ===
-
-[KIOSK STATE]: ACTIVE
-[COMMAND] Purchase
-Paid via UPI: 200
-[EVENT]: PurchaseSuccess
-Success
-
-=== FAILURE CASE ===
-
-[KIOSK STATE]: ACTIVE
-[COMMAND] Purchase
-Paid via UPI: 500
-[ERROR]: temporary
-[EVENT]: PurchaseFailed
-Rollback
-
-=== RESTOCK ===
-[COMMAND] Restock
-Restocked
-
-=== REFUND ===
-[COMMAND] Refund
-Refunded
-```
-
-## Key Classes
-
-| Class | Purpose |
+| Constraint | Implementation |
 |---|---|
-| `Kiosk` | Main controller for kiosk operations |
-| `KioskInterface` | Simplified interface for external interaction |
-| `Inventory` | Manages products and stock |
-| `Product` | Represents product information |
-| `PurchaseCommand` | Handles purchase execution |
-| `RefundCommand` | Handles refund execution |
-| `RestockCommand` | Handles restocking |
-| `StandardPricing` | Calculates normal price |
-| `DiscountPricing` | Applies discount pricing |
-| `EmergencyPricing` | Applies emergency markup pricing |
-| `ActiveState` | Allows normal operations |
-| `MaintenanceState` | Blocks purchases |
-| `EmergencyState` | Restricts purchase quantity |
-| `Caretaker` | Saves and restores inventory state |
-| `Retry` | Handles temporary failures |
-| `Alert` | Sends failure alerts |
-
-## Troubleshooting
-
-### PySide6 is not installed
-
-If you see this error:
-
-```text
-ModuleNotFoundError: No module named 'PySide6'
-```
-
-Install PySide6:
-
-```bash
-pip install PySide6
-```
-
-### GUI does not start
-
-Make sure you are running the command from the project root:
-
-```bash
-python run_gui.py
-```
-
-### Product pricing does not update
-
-Check that the GUI is passing the selected pricing strategy to:
-
-```python
-KioskInterface.purchaseItem()
-```
-
-You can also verify pricing manually:
-
-```python
-from pricing.strategy import StandardPricing, DiscountPricing, EmergencyPricing
-
-base_price = 100
-
-print(StandardPricing().calculate(base_price, 2))
-print(DiscountPricing().calculate(base_price, 2))
-print(EmergencyPricing().calculate(base_price, 2))
-```
-
-## Future Enhancements
-
-- Add user authentication
-- Add real payment gateway integration
-- Improve transaction history tracking
-- Add admin dashboard
-- Add product search and filtering
-- Add database support instead of JSON files
-- Add detailed logging
-- Add automated unit tests
-
-## Conclusion
-
-Aura Retail OS demonstrates how object-oriented programming and design patterns can be used to build a modular, adaptive kiosk system. The project focuses on clean architecture, loose coupling, transaction safety, and extensible behavior for smart-city retail environments.
+| Purchase limit during emergencies | `EmergencyState.handle_purchase()` caps at 2 units |
+| Atomic transactions | `PurchaseCommand` rolls back stock reservation if payment fails |
+| Hardware dependency | `Inventory.available_stock()` returns 0 when `hw_ok=False` |
+| Inventory consistency | Stock committed only after full command success |
+| Concurrent transactions | `Inventory` uses `threading.Lock` on all mutations |

@@ -1,0 +1,46 @@
+[
+  {
+    "product_id": "FOOD-001",
+    "name": "Sandwich",
+    "base_price": 80.0,
+    "total_stock": 30,
+    "reserved": 0,
+    "available": 30,
+    "hw_ok": true,
+    "is_essential": false,
+    "requires_hardware": []
+  },
+  {
+    "product_id": "FOOD-002",
+    "name": "Bottled Water",
+    "base_price": 20.0,
+    "total_stock": 120,
+    "reserved": 0,
+    "available": 120,
+    "hw_ok": true,
+    "is_essential": true,
+    "requires_hardware": []
+  },
+  {
+    "product_id": "FOOD-003",
+    "name": "Burger",
+    "base_price": 95.0,
+    "total_stock": 35,
+    "reserved": 0,
+    "available": 35,
+    "hw_ok": true,
+    "is_essential": false,
+    "requires_hardware": []
+  },
+  {
+    "product_id": "FOOD-004",
+    "name": "Salad Box",
+    "base_price": 65.0,
+    "total_stock": 20,
+    "reserved": 0,
+    "available": 20,
+    "hw_ok": true,
+    "is_essential": false,
+    "requires_hardware": []
+  }
+]

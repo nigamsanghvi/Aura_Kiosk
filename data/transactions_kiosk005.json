@@ -1,0 +1,31 @@
+[
+  {
+    "txn_id": "7DEC31BA",
+    "type": "PURCHASE",
+    "product_id": "FOOD-003",
+    "qty": 2,
+    "amount": 180.5,
+    "payment": "UPI",
+    "pricing": "Discount (5%)",
+    "user_id": "USER-040",
+    "status": "SUCCESS",
+    "timestamp": "2026-04-29T07:14:52+00:00"
+  },
+  {
+    "txn_id": "8D0294BB",
+    "type": "REFUND",
+    "product_id": "FOOD-003",
+    "qty": 2,
+    "amount": 190.0,
+    "status": "SUCCESS",
+    "timestamp": "2026-04-29T07:14:52+00:00"
+  },
+  {
+    "txn_id": "DE779AAA",
+    "type": "RESTOCK",
+    "product_id": "FOOD-003",
+    "qty": 10,
+    "status": "SUCCESS",
+    "timestamp": "2026-04-29T07:14:52+00:00"
+  }
+]
