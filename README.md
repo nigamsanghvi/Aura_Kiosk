@@ -379,27 +379,33 @@ python gui.py
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  AURA RETAIL OS                  ● ACTIVE   🖥 KIOSK-PH    │  ← Header with live badge
+│  AURA RETAIL OS                  ● ACTIVE   🖥 KIOSK-PH     │  ← Header with live badge
 ├──────────┬──────────────────────────────────────────────────┤
-│          │                                                   │
-│ ⚙ Setup  │                                                   │
-│ 🛒 Buy   │              Main content panel                   │
-│ ↩ Refund │         (changes with sidebar selection)          │
-│ 📦 Stock │                                                   │
-│ ➕ Add   │                                                   │
-│ 📊 Inv.  │                                                   │
-│ 🔄 State │                                                   │
-│ 💰 Price │                                                   │
-│ 💳 Pay   │                                                   │
-│ 🔬 Diag. │                                                   │
-│ 📜 Txns  │                                                   │
-│ 📡 Log   │                                                   │
-│ 💾 Save  │                                                   │
+│          │                                                  │
+│ ⚙ Setup  │                                                  │
+│ 🛒 Buy   │              Main content panel                  │
+│ ↩ Refund │         (changes with sidebar selection)         │
+│ 📦 Stock │                                                  │
+│ ➕ Add   │                                                  │
+│ 📊 Inv.  │                                                  │
+│ 🔄 State │                                                  │
+│ 💰 Price │                                                  │
+│ 💳 Pay   │                                                  │
+│ 🔬 Diag. │                                                  │
+│ 📜 Txns  │                                                  │
+│ 📡 Log   │                                                  │
+│ 💾 Save  │                                                  │
 ├──────────┴──────────────────────────────────────────────────┤
 │  SYSTEM LOG  (live event stream — always visible)           │  ← Bottom log strip
 └─────────────────────────────────────────────────────────────┘
 ```
 
+### GUI Screenshot
+```
+
+<img src="GUI_img.png" alt="GUI Screenshot" width="800">
+
+```
 ### Step-by-step walkthrough
 
 #### Step 1 — Kiosk Setup  `⚙`
