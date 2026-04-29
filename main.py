@@ -1,10 +1,8 @@
-# ============================================================
-# Module: main.py
-# Role: Entry point — demonstrates all Path A scenarios
-# ============================================================
+# Role: Entry point — demonstrates all scenarios
 
 from __future__ import annotations
 import sys, os
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from core.central_registry import CentralRegistry
@@ -30,18 +28,18 @@ from pricing.strategy import StandardPricing, DiscountPricing, EmergencyPricing
 from payment.strategy import UPIPayment, CardPayment, WalletPayment
 from persistence.storage import Storage
 
-
 # ─────────────────────────────────────────────────────────────
 # Shared infrastructure
 # ─────────────────────────────────────────────────────────────
 
+
 def build_event_bus() -> EventBus:
     bus = EventBus()
-    bus.subscribe(EventType.HARDWARE_FAILURE,      MaintenanceServiceSubscriber())
+    bus.subscribe(EventType.HARDWARE_FAILURE, MaintenanceServiceSubscriber())
     bus.subscribe(EventType.HARDWARE_RECALIBRATED, MaintenanceServiceSubscriber())
-    bus.subscribe(EventType.LOW_STOCK,             SupplyChainSubscriber())
-    bus.subscribe(EventType.EMERGENCY_ACTIVATED,   CityMonitoringSubscriber())
-    bus.subscribe(EventType.TRANSACTION_ROLLBACK,  CityMonitoringSubscriber())
+    bus.subscribe(EventType.LOW_STOCK, SupplyChainSubscriber())
+    bus.subscribe(EventType.EMERGENCY_ACTIVATED, CityMonitoringSubscriber())
+    bus.subscribe(EventType.TRANSACTION_ROLLBACK, CityMonitoringSubscriber())
     return bus
 
 
@@ -54,6 +52,7 @@ def sep(title: str) -> None:
 # ─────────────────────────────────────────────────────────────
 # Scenario 1: Dynamic Pricing Change
 # ─────────────────────────────────────────────────────────────
+
 
 def scenario_1() -> None:
     sep("SCENARIO 1 — Dynamic Pricing Strategy Change")
@@ -91,6 +90,7 @@ def scenario_1() -> None:
 # ─────────────────────────────────────────────────────────────
 # Scenario 2: Kiosk State Transitions
 # ─────────────────────────────────────────────────────────────
+
 
 def scenario_2() -> None:
     sep("SCENARIO 2 — Kiosk Operational State Transitions")
@@ -135,6 +135,7 @@ def scenario_2() -> None:
 # Scenario 3: Hardware Failure Recovery
 # ─────────────────────────────────────────────────────────────
 
+
 def scenario_3() -> None:
     sep("SCENARIO 3 — Hardware Failure Recovery (Chain of Responsibility + Memento)")
 
@@ -164,6 +165,7 @@ def scenario_3() -> None:
     print("\nStep 4: Failure handler chain resolves the issue")
     print("  (Retry → Recalibrate → Alert chain in action)")
     from failure.handler import build_default_chain
+
     chain = build_default_chain()
     outcome = chain.handle("hardware motor jam")
     print(f"  Chain resolution: {outcome}")
@@ -181,12 +183,15 @@ def scenario_3() -> None:
     print("  (Check that stock was NOT incorrectly deducted during fault window)")
     for row in interface.getInventory():
         if row["product_id"] == "EMRG-001":
-            print(f"  EMRG-001 available stock (should be consistent): {row['available']}")
+            print(
+                f"  EMRG-001 available stock (should be consistent): {row['available']}"
+            )
 
 
 # ─────────────────────────────────────────────────────────────
 # Scenario 4: Event-Driven Notification System
 # ─────────────────────────────────────────────────────────────
+
 
 def scenario_4() -> None:
     sep("SCENARIO 4 — Event-Driven Notifications (Observer)")
@@ -219,6 +224,7 @@ def scenario_4() -> None:
 # ─────────────────────────────────────────────────────────────
 # Scenario 5: Full Transaction with Refund & Persistence
 # ─────────────────────────────────────────────────────────────
+
 
 def scenario_5() -> None:
     sep("SCENARIO 5 — Purchase, Refund & JSON Persistence")
@@ -254,8 +260,9 @@ def scenario_5() -> None:
 # Main
 # ─────────────────────────────────────────────────────────────
 
+
 def main() -> None:
-    CentralRegistry._instance = None   # clean slate for demo
+    CentralRegistry._instance = None  # clean slate for demo
     registry = CentralRegistry.get_instance()
     registry.log("=== Aura Retail OS — Path A Demo Starting ===")
 
