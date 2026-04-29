@@ -141,17 +141,3 @@ Below are reproducible scenarios that demonstrate Path A capabilities. Each scen
 - Logs and prints from `core/kiosk.py` provide step-by-step traces for payment execution, simulated hardware failures, retries, and rollback.
 
 ---
-
-**Development Notes**
-
-- Path A emphasizes automatic recovery: you will find retry logic and a basic Chain-of-Responsibility in `failure/`.
-- The simulated hardware failure is intentionally triggered when quantity &gt; 3 to demonstrate retry + rollback flows. Adjust or remove this in `core/kiosk.py` if you no longer want a simulated failure.
-
----
-
-If you want, I can:
-- Add a visible price display in the GUI (real-time updates when changing pricing strategy).
-- Add explicit GUI controls to toggle kiosk state (Active/Emergency/Maintenance) for easier simulation.
-- Add a small `scripts/` helper to run the listed scenarios automatically.
-
-Tell me which of these you'd like next.
