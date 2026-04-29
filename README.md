@@ -1,40 +1,3 @@
-# Aura Retail OS
-
-**Aura Retail OS** is an autonomous, modular smart-city retail kiosk simulation built using object-oriented programming principles. It demonstrates how a smart kiosk can adapt to different real-world environments such as hospitals, metro stations, campuses, and disaster-response zones.
-
-The project implements multiple OOP design patterns, including **Command**, **Strategy**, **State**, **Memento**, **Chain of Responsibility**, and **Event-driven communication**.
-
-## Project Overview
-
-Aura Retail OS simulates a smart retail kiosk that can:
-
-- Manage product inventory
-- Process purchases and refunds
-- Restock products
-- Apply dynamic pricing strategies
-- Handle operational states such as active, maintenance, and emergency mode
-- Recover from simulated hardware failures
-- Roll back inventory changes when a transaction fails
-- Persist inventory and transaction data using JSON
-
-This project was developed as part of an Object-Oriented Programming group project under **Path A: Adaptive Autonomous System**.
-
-## Features
-
-- Modular architecture with separate subsystems
-- Inventory management
-- GUI-based kiosk interface using PySide6
-- CLI demo simulation
-- Dynamic pricing strategies: Standard, Discount, and Emergency
-- Payment strategy support
-- Transaction execution using the Command pattern
-- Failure handling using Chain of Responsibility
-- State-based kiosk behavior
-- Inventory rollback using the Memento pattern
-- Event publishing for transaction success and failure
-- JSON-based persistence for inventory and transactions
-
-## Repository Structure
 # 🛒 Aura Retail OS — Path A: Adaptive Autonomous System
 
 > Python 3.10+ · OOP design patterns · IT620 Project
@@ -68,35 +31,20 @@ object-oriented design patterns.
 
 ## Folder Structure
 
-```text
-Aura_Kiosk-main/
 ```
 aura_retail_os/
 ├── main.py                     # Entry point — 5 simulation scenarios
 ├── core/
-│   ├── kiosk.py
-│   ├── kiosk_interface.py
-│   └── central_registry.py
-├── inventory/
-│   └── inventory.py
 │   ├── central_registry.py     # SINGLETON — global store
 │   ├── kiosk.py                # Kiosk core orchestrator
 │   ├── kiosk_interface.py      # FACADE — external API
 │   ├── kiosk_factory.py        # ABSTRACT FACTORY — Pharmacy/Food/Emergency
 │   └── commands.py             # COMMAND — Purchase/Refund/Restock + Invoker
 ├── state/
-│   └── kiosk_state.py          # STATE — Active/PowerSaving/Maintenance/Emergency 
+│   └── kiosk_state.py          # STATE — Active/PowerSaving/Maintenance/Emergency
 ├── pricing/
 │   └── strategy.py             # STRATEGY — Standard/Discount/Emergency pricing
 ├── payment/
-│   ├── command.py
-│   └── strategy.py
-├── pricing/
-│   └── strategy.py
-├── failure/
-│   └── handler.py
-├── state/
-│   └── kiosk_state.py
 │   └── strategy.py             # STRATEGY — UPI/Card/Wallet payment methods
 ├── failure/
 │   └── handler.py              # CHAIN OF RESPONSIBILITY — Retry→Recalibrate→Alert
@@ -135,38 +83,6 @@ python main.py
 ```bash
 python -m unittest tests.test_aura_retail_os -v
 ```
-
----
-
-**Demo — CLI & GUI**
-
-- **CLI Demo:** Launch the interactive command-line interface to control a kiosk instance. From the project root run:
-
-```bash
-python interface/cli.py
-```
-
-The CLI provides text-based controls for starting scenarios, performing purchases, refunds, and restocking. Use the `--help` flag for available commands when supported.
-
-- **GUI Demo:** Launch the graphical interface (requires a Python build with Tkinter). From the project root run:
-
-```bash
-python interface/gui.py
-```
-
-The GUI offers buttons and visual status information to run the same simulations as `main.py` and to interact with the kiosk in a more user-friendly way.
-
-**Run the full simulation suite**
-
-- To run all five pre-built simulation scenarios (Dynamic Pricing, State Transitions, Hardware Failure Recovery, Event Notifications, and Transaction Lifecycle), run:
-
-```bash
-python main.py
-```
-
-Notes:
-- Ensure you are using Python 3.10+.
-- The demos save/load data under the `data/` directory (e.g., `data/inventory_kiosk005.json`).
 
 ---
 
