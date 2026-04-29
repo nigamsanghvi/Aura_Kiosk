@@ -1,6 +1,5 @@
 class Command:
-    def execute(self):
-        pass
+    def execute(self): pass
 
 
 class PurchaseCommand(Command):

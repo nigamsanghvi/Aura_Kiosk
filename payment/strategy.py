@@ -1,6 +1,7 @@
 
 class PaymentStrategy:
-    def pay(self, amount): pass
+    def pay(self, amount): 
+        pass
 
 class UPI(PaymentStrategy):
     def pay(self, amount):
