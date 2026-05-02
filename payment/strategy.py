@@ -1,69 +1,45 @@
-# Pattern: Strategy
-# Role: Pluggable pricing policies that can be swapped at runtime
-
 from __future__ import annotations
-from abc import ABC, abstractmethod
-from models.product import Product
+from typing import Any
 
 
-# PATTERN: Strategy (Abstract Strategy)
-class PricingStrategy(ABC):
-    """Abstract pricing policy. Concrete strategies compute final price."""
+class PaymentStrategy:
+    """Abstract payment strategy interface (duck-typed)."""
 
-    @abstractmethod
-    def calculate(self, product: Product, qty: int) -> float: ...
+    def pay(self, amount: float, user_id: str = "ANON") -> bool: ...
 
-    @abstractmethod
+    def refund(self, amount: float, ref: str = "") -> bool: ...
+
     def get_name(self) -> str: ...
 
 
-# PATTERN: Strategy (Concrete — Standard)
-class StandardPricing(PricingStrategy):
-    """Full price with no adjustments."""
+class UPIPayment(PaymentStrategy):
+    def pay(self, amount: float, user_id: str = "ANON") -> bool:
+        return True
 
-    def calculate(self, product: Product, qty: int) -> float:
-        return round(product.base_price * qty, 2)
-
-    def get_name(self) -> str:
-        return "Standard"
-
-
-# PATTERN: Strategy (Concrete — Discount)
-class DiscountPricing(PricingStrategy):
-    """Fixed percentage discount off the base price."""
-
-    def __init__(self, discount_rate: float = 0.10) -> None:
-        self._rate = max(0.0, min(discount_rate, 0.95))
-
-    def calculate(self, product: Product, qty: int) -> float:
-        base = product.base_price * qty
-        return round(base * (1 - self._rate), 2)
+    def refund(self, amount: float, ref: str = "") -> bool:
+        return True
 
     def get_name(self) -> str:
-        return f"Discount ({int(self._rate * 100)}%)"
+        return "UPI"
 
 
-# PATTERN: Strategy (Concrete — Emergency)
-class EmergencyPricing(PricingStrategy):
-    """
-    Emergency mode pricing:
-    - Essential items receive a relief discount.
-    - Non-essential items receive a scarcity markup.
-    """
+class CardPayment(PaymentStrategy):
+    def pay(self, amount: float, user_id: str = "ANON") -> bool:
+        return True
 
-    def __init__(
-        self,
-        essential_discount: float = 0.20,
-        non_essential_markup: float = 0.15,
-    ) -> None:
-        self._essential_discount = essential_discount
-        self._non_essential_markup = non_essential_markup
-
-    def calculate(self, product: Product, qty: int) -> float:
-        base = product.base_price * qty
-        if product.is_essential:
-            return round(base * (1 - self._essential_discount), 2)
-        return round(base * (1 + self._non_essential_markup), 2)
+    def refund(self, amount: float, ref: str = "") -> bool:
+        return True
 
     def get_name(self) -> str:
-        return "Emergency"
+        return "Card"
+
+
+class WalletPayment(PaymentStrategy):
+    def pay(self, amount: float, user_id: str = "ANON") -> bool:
+        return True
+
+    def refund(self, amount: float, ref: str = "") -> bool:
+        return True
+
+    def get_name(self) -> str:
+        return "Wallet"
