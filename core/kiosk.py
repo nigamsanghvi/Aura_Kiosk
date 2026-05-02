@@ -1,11 +1,10 @@
-# Module: core/kiosk.py
 # Role: Kiosk core — orchestrates all Path A subsystems
 
 from __future__ import annotations
 from typing import Any, TYPE_CHECKING
 
 from core.central_registry import CentralRegistry
-from core.commands import PurchaseCommand, RefundCommand, RestockCommand, CommandInvoker
+from core.command import PurchaseCommand, RefundCommand, RestockCommand, CommandInvoker
 from events.event_bus import EventBus, EventType
 from inventory.inventory import Inventory
 from memento.memento import TransactionCaretaker
